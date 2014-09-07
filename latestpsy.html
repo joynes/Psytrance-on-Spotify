@@ -1,0 +1,138 @@
+<html>
+<head>
+<link href='http://fonts.googleapis.com/css?family=Share' rel='stylesheet' type='text/css'>
+<meta name="description" content="Find the latest psytrance and play it directly in Spotify. Genres: psytrance, progressive, chillout" />
+<meta name="keywords" content="psytrance, progressive, chillout, spotify" />
+<meta name="author" content="Joynes" />
+<meta charset="utf-8">
+<title>Psytrance on Spotify</title>
+<script src="jquery.js"></script>
+<script src="jquery.cookie.js"></script>
+<script src="main.js"></script>
+<style type="text/css">
+img.lessOpacity {                       
+   opacity: 0.2;
+   filter: alpha(opacity=20);
+   zoom: 1;  /* needed to trigger "hasLayout" in IE if no width or height is set */ 
+}
+
+a {
+	color: #ccc;
+}
+
+body {
+	font-family: 'Share', cursive;
+	color: #ffffff;
+    background-image: url(bg.png);
+    margin: 0px; padding: 0px;
+}
+
+#bodydiv {
+	height: 600px;
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFiNDVhMiIgc3RvcC1vcGFjaXR5PSIwLjIiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzFiNDVhMiIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+	background: -moz-linear-gradient(top, rgba(27,69,162,0.2) 0%, rgba(27,69,162,0) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(27,69,162,0.2)), color-stop(100%,rgba(27,69,162,0))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(27,69,162,0.2) 0%,rgba(27,69,162,0) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(27,69,162,0.2) 0%,rgba(27,69,162,0) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, rgba(27,69,162,0.2) 0%,rgba(27,69,162,0) 100%); /* IE10+ */
+	background: linear-gradient(top, rgba(27,69,162,0.2) 0%,rgba(27,69,162,0) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#331b45a2', endColorstr='#001b45a2',GradientType=0 ); /* IE6-8 */
+	
+}
+</style>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7593547-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+<body>
+<div id="bodydiv" align="center">
+<div id="content">
+	<div id="fb-root"></div>
+	<script>
+		window.fbAsyncInit = function() {
+			FB.init({
+				appId : '103132829741268', // App ID
+				status : true, // check login status
+				cookie : true, // enable cookies to allow the server to access the session
+				xfbml : true
+			// parse XFBML
+			});
+
+			FB.Event.subscribe('auth.login', function(response) {
+				onLoginAttempt(response.authResponse.userID);
+			});
+
+			FB.Event.subscribe('auth.logout', function(response) {
+				onLoginAttempt(null);
+			});
+
+			// Additional initialization code here
+			FB.getLoginStatus(function(response) {
+				if (response.status === 'connected') {
+					onLoginAttempt(response.authResponse.userID);
+
+				} else if (response.status === 'not_authorized') {
+					// the user is logged in to Facebook, 
+					// but has not authenticated your app
+					onLoginAttempt(null);
+				} else {
+					// the user isn't logged in to Facebook.
+					onLoginAttempt(null);
+				}
+			});
+		};
+
+		// Load the SDK Asynchronously
+		(function(d) {
+			var js, id = 'facebook-jssdk', ref = d
+					.getElementsByTagName('script')[0];
+			if (d.getElementById(id)) {
+				return;
+			}
+			js = d.createElement('script');
+			js.id = id;
+			js.async = true;
+			js.src = "//connect.facebook.net/en_US/all.js";
+			ref.parentNode.insertBefore(js, ref);
+		}(document));
+	</script>
+
+	
+	<div align="center">
+	<br>
+		<h2>PSYTRANCE ON SPOTIFY</h2>
+		<form>
+			<input type="radio" name="style" value="All" /> All <input
+				type="radio" name="style" value="Psytrance" /> Psytrance <input
+				type="radio" name="style" value="Progressive" /> Progressive <input
+				type="radio" name="style" value="Chillout" /> Chillout
+		</form>
+		
+		<br>
+		
+	
+		<form>
+			<fb:login-button autologoutlink="true">
+		</fb:login-button>
+			<input type="radio" name="filter" value="all" />  All <input
+				type="radio" name="filter" value="grey" /> Shadow <input
+				type="radio" name="filter" value="hide" /> Hide<input
+				type="radio" name="filter" value="played" /> Played
+		</form>
+	</div>
+	<br>
+</div>
+</div>
+
+</body>
+</html>

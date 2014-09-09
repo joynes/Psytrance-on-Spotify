@@ -20,3 +20,8 @@ echo "Time: $time"
 echo "Year: $year"
 echo "Month: $month -> $monthday"
 echo "Day: $day"
+
+
+result=`curl "$(echo http://ws.spotify.com/search/1/track?q=$artist $title $track1 | sed 's/ /%20/g')"`
+album=`echo "$result" | grep '<album' | sed 's/[^"]*"\([^"]*\).*/\1/'`
+echo "Album: $album"

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+[ ! $1 ] && { echo "Usage: $0 <year>"; exit 1; }
+year=$1
 #------------------------------------------------------
 # All the steps
 #------------------------------------------------------
@@ -7,7 +9,6 @@ echo -------------------------------------------
 echo Download all the search pages
 echo -------------------------------------------
 
-year=${1:?"Usage: echo $0 <year>"}
 mkdir -p pages
 cd pages
 mkdir -p $year

@@ -21,7 +21,10 @@ echo "Year: $year"
 echo "Month: $month -> $monthday"
 echo "Day: $day"
 
+url=`echo "https://api.spotify.com/v1/search?q=$artist $title $track1&type=track" | sed 's/ /%20/g'`
+result=`curl "$url"`
 
-result=`curl "$(echo http://ws.spotify.com/search/1/track?q=$artist $title $track1 | sed 's/ /%20/g')"`
-album=`echo "$result" | grep '<album' | sed 's/[^"]*"\([^"]*\).*/\1/'`
+album=`echo "$result" | grep 'spotify:album' | sed 's/.* : "\(.*\)"/\1/'`
 echo "Album: $album"
+coverart=`echo "$result" | fgrep -A 1 '"height" : 640' | tail -n 1 | sed 's/.* : "\(.*\)",/\1/'`
+echo "Coverart: $coverart"

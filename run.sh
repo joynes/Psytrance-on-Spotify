@@ -1,4 +1,7 @@
-#!/bin/bash
+# !/bin/bash
+
+WEEKS=1 # Nr of weeks to grab, starting from 0
+MAX_WEEK_SIZE=5 # Nr of albums/week to parse
 
 [ ! $1 ] && { echo "Usage: $0 <year>"; exit 1; }
 year=$1
@@ -13,7 +16,7 @@ mkdir -p pages
 cd pages
 mkdir -p $year
 cd $year
-i=1; while [ $i -lt 2 ]; do nr=$i; [ $nr -lt 10 ] && nr=0$nr; [ -e $i.html ] && echo "Psyshop file $i.html already exists" || { \
+i=1; while [ $i -le $WEEKS ]; do nr=$i; [ $nr -lt 10 ] && nr=0$nr; [ -e $i.html ] && echo "Psyshop file $i.html already exists" || { \
 curl -H 'Referer: http://www.psyshop.com/' -d 'boolean=AND&case=INSENSITIVE&other=TRUE&cd=TRUE&dw=TRUE&terms='$year'%2F'$nr 'http://www.psyshop.com/psyfctn/psysrch' > $i.html;
 }; let i=i+1; done
 
@@ -31,7 +34,11 @@ echo -------------------------------------------
 echo Get all individual pages.. will take time..
 echo -------------------------------------------
 
-i=0; cat ../links.txt | head -n 1 | while read in; do [ -e $i.html ] && echo "Individual album page $i.html exists..." || { curl $in > $i.html; echo $in > $i.link; }; let i=$i+1; done
+i=0; cat ../links.txt | \
+while read in; do 
+	[ -e $i.html ] && echo "Individual album page $i.html exists..." || { curl $in > $i.html; echo $in > $i.link; }
+	let i=$i+1; 
+done
 
 
 echo -------------------------------------------
@@ -39,7 +46,13 @@ echo  Parse all the pages and get the inserts
 echo -------------------------------------------
 
 size=`ls | grep link | wc -l`
-i=0; while [ $i -lt $size ]; do bash ../../../parser.sh  $i.html `cat $i.link`; let i=i+1; done  | tee inserts.txt
+i=0; while [ $i -lt $size ]; do 
+	[ $i -ge $MAX_WEEK_SIZE ] && break
+	echo ---------------------------------------
+	echo "parser.sh pages/$year/albums/$i.html `cat $i.link`"
+	bash ../../../parser.sh  $i.html `cat $i.link`
+	let i=i+1
+done  | tee inserts.txt
 
 exit 1
 rm data.php

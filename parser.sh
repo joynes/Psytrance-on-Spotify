@@ -1,7 +1,9 @@
-#!/bin/bash
+#! /bin/bash
+
 header=`grep '^<TITLE>' $1 | sed 's/<TITLE>\(.*\) (.*/\1/' | sed 's/EP//'`
 artist=${header%:*}
 title=${header#*:}
+echo ---------------------------------------
 echo "Artist: $artist, Title: $title"
 track1=`grep '<B>1\. ' $1 | sed 's/.*<B>1\. \([^<]*\).*/\1/'`
 echo "Track1: $track1"
@@ -22,9 +24,12 @@ echo "Month: $month -> $monthday"
 echo "Day: $day"
 
 url=`echo "https://api.spotify.com/v1/search?q=$artist $title $track1&type=track" | sed 's/ /%20/g'`
-result=`curl "$url"`
+result=`curl --silent "$url"`
 
-album=`echo "$result" | grep 'spotify:album' | sed 's/.* : "\(.*\)"/\1/'`
+album=`echo "$result" | grep 'spotify:album' | tail -n 1 | sed 's/.* : "\(.*\)"/\1/'`
+[ "$album" ] || { "NO RESULTS FOR $artist $title $track1"; exit 0; }
 echo "Album: $album"
-coverart=`echo "$result" | fgrep -A 1 '"height" : 640' | tail -n 1 | sed 's/.* : "\(.*\)",/\1/'`
+#echo "$result"
+coverart=`echo "$result" | grep 'url".*image' | head -n 1 | sed 's/.* : "\(.*\)",/\1/'`
+
 echo "Coverart: $coverart"

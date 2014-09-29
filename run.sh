@@ -1,7 +1,7 @@
 # !/bin/bash
 
-WEEKS=1 # Nr of weeks to grab, starting from 0
-MAX_WEEK_SIZE=5 # Nr of albums/week to parse
+WEEKS=44 # Nr of weeks to grab, starting from 0
+MAX_WEEK_SIZE=10000 # Nr of albums/week to parse
 
 [ ! $1 ] && { echo "Usage: $0 <year>"; exit 1; }
 year=$1
@@ -45,26 +45,25 @@ echo -------------------------------------------
 echo  Parse all the pages and get the inserts
 echo -------------------------------------------
 
+rm inserts.txt
 size=`ls | grep link | wc -l`
 i=0; while [ $i -lt $size ]; do 
 	[ $i -ge $MAX_WEEK_SIZE ] && break
-	echo ---------------------------------------
+	echo -e "\e[34m---------------------------------------"
 	echo "parser.sh pages/$year/albums/$i.html `cat $i.link`"
+	echo -e "---------------------------------------\e[0m"
 	bash ../../../parser.sh  $i.html `cat $i.link`
 	let i=i+1
-done  | tee inserts.txt
+done
 
-exit 1
 rm data.php
 echo '<?php $array = array(' >> data.php
 cat inserts.txt | grep "^array(" >> data.php
 echo '); ?>' >> data.php
-
 . ../../../passwords/ftp_uri.sh
 ftp "$ftp_uri" <<EOF
 put data.php psytrance.se/data.php
 EOF
-
 curl "http://psytrance.se/export.php" | tee result.log
 
 echo "inserted " `cat result.log | grep "Sucess insert" | wc | awk '{print $1}'` " albums"

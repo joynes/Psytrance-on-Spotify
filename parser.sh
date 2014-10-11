@@ -27,7 +27,8 @@ result=`cat ${md5}.spotify_search`
 
 echo "Search: ${md5}.spotify_search"
 album=`echo "$result" | grep 'spotify:album' | head -n 1 | sed 's/.* : "\(.*\)"/\1/'`
-[ "$album" ] || { echo -e "\e[31mNO RESULTS FOR $artist $title $track1\e[0m"; exit 0; }
+# If album was not found then remove the cache since it might get available later in spotify
+[ "$album" ] || { echo -e "\e[31mNO RESULTS FOR $artist $title $track1\e[0m"; [ -f ${md5}.spotify_search ] && rm ${md5}.spotify_search && echo "Removed cache ${md5}.spotify_search"; exit 0; }
 echo "Album: $album"
 #echo "$result"
 coverart=`echo "$result" | grep 'url".*image' | head -n 1 | sed 's/.* : "\(.*\)",/\1/'`

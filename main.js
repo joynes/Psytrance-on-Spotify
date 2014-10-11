@@ -72,7 +72,7 @@ function buildTableCallback(data) {
 		var img = '<img width="180" id="e' + i + '"src="' + data[i].image + '" border="0" ' + imgClass + '/>';
 		
 		var cell = '<a href="javascript:onClickLink:onClickLink(\'' + data[i].spotify + '\', \'e' + i + '\');">' + img + '</a><br/>';
-		text = data[i].title + '<div style="color:#aaa;">' + data[i].artist + '</div>';
+		text = data[i].title + ' (' + data[i].info + ')' + '<div style="color:#aaa;">' + data[i].artist + '</div>';
 
 		cell += text;
 		cell += '<div style="font-style:italic;font-size:80%">' + data[i].releasedate

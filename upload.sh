@@ -1,13 +1,11 @@
-ftp ftp://joynes:W1U6IHXW@ws41.surf-town.net <<EOF
-put  ~/joynes/psyhack/main.js psytrance.se/main.js
-put  ~/joynes/psyhack/albumClicked.php psytrance.se/albumClicked.php
-put  ~/joynes/psyhack/rest.php psytrance.se/rest.php
-put  ~/joynes/psyhack/latestpsy.html psytrance.se/index.html
-put  ~/joynes/psyhack/login.php psytrance.se/login.php
-put  ~/joynes/psyhack/bg.png psytrance.se/bg.png
-put  ~/joynes/psyhack/export.php psytrance.se/export.php
-EOF
-
-ftp ftp://joynes:W1U6IHXW@ws41.surf-town.net <<EOF
-put  ~/joynes/psyhack/misc/uniq_ids.php psytrance.se/uniq_ids.php
+source passwords/ftp_uri.sh
+ftp "$ftp_uri" <<EOF
+put  main.js psytrance.se/main.js
+put  albumClicked.php psytrance.se/albumClicked.php
+put  rest.php psytrance.se/rest.php
+put  latestpsy.html psytrance.se/index.html
+put  login.php psytrance.se/login.php
+put  bg.png psytrance.se/bg.png
+put  export.php psytrance.se/export.php
+put  misc/uniq_ids.php psytrance.se/uniq_ids.php
 EOF

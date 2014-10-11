@@ -48,6 +48,7 @@
 		$albums[$i]['image'] = mysql_result($result,$i,"image");
 		$albums[$i]['psyshop'] = mysql_result($result,$i,"psyshop");
 		$albums[$i]['uid'] = mysql_result($result,$i,"uid");
+		$albums[$i]['info'] = mysql_result($result,$i,"info");
 	}
 
 	// albums is a list of associative arrays. Need another level.

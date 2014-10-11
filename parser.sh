@@ -31,6 +31,10 @@ album=`echo "$result" | grep 'spotify:album' | head -n 1 | sed 's/.* : "\(.*\)"/
 [ "$album" ] || { echo -e "\e[31mNO RESULTS FOR $artist $title $track1\e[0m"; [ -f ${md5}.spotify_search ] && rm ${md5}.spotify_search && echo "Removed cache ${md5}.spotify_search"; exit 0; }
 echo "Album: $album"
 #echo "$result"
+# Get # of tracks
+tracks_count=`curl --silent "http://ws.spotify.com/lookup/1/?uri=$album&extras=track" | grep 'spotify:track' | wc -l | awk '{print $1}'`
+echo "Tracks count: $tracks_count"
+
 coverart=`echo "$result" | grep 'url".*image' | head -n 1 | sed 's/.* : "\(.*\)",/\1/'`
 
 echo "Coverart: $coverart"
@@ -38,4 +42,4 @@ echo "Coverart: $coverart"
 artist=${artist//\'/\"}
 title=${title//\'/\"}
 
-echo "array('$artist', '$title', '$style', '$timestamp', 'noinfo', '$2', '$album', '$coverart')," >> inserts.txt
+echo "array('$artist', '$title', '$style', '$timestamp', '$tracks_count', '$2', '$album', '$coverart')," >> inserts.txt

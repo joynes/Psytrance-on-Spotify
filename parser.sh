@@ -21,7 +21,7 @@ timestamp=`python -c "from isoweek import Weekprint Week($year,$week).monday()"
 echo "Time: $time -> $timestamp"
 
 url=`echo "https://api.spotify.com/v1/search?q=$artist $title $track1&type=track" | sed 's/ /%20/g'`
-md5=`echo "$url" | md5`
+md5=`echo "$url" | /sbin/md5`
 [ ! -f ${md5}.spotify_search ] && curl  "$url" --silent --output ${md5}.spotify_search || echo -e "\e[32mUsing cached search\e[0m"
 result=`cat ${md5}.spotify_search`
 

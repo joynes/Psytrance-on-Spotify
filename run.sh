@@ -17,7 +17,7 @@ cd pages
 mkdir -p $year
 cd $year
 i=1; while [ $i -le $WEEKS ]; do nr=$i; [ $nr -lt 10 ] && nr=0$nr; [ -e $i.html ] && echo "Psyshop file $i.html already exists" || { \
-curl -H 'Referer: http://www.psyshop.com/' -d 'boolean=AND&case=INSENSITIVE&other=TRUE&cd=TRUE&dw=TRUE&terms='$year'%2F'$nr 'http://www.psyshop.com/psyfctn/psysrch' > $i.html;
+curl -s -H 'Referer: http://www.psyshop.com/' -d 'boolean=AND&case=INSENSITIVE&other=TRUE&cd=TRUE&dw=TRUE&terms='$year'%2F'$nr 'http://www.psyshop.com/psyfctn/psysrch' > $i.html;
 }; let i=i+1; done
 
 echo -------------------------------------------
@@ -31,29 +31,18 @@ mkdir -p albums
 cd albums
 
 echo -------------------------------------------
-echo Get all individual pages.. will take time..
-echo -------------------------------------------
-
-i=0; cat ../links.txt | \
-while read in; do 
-	[ -e $i.html ] && echo "Individual album page $i.html exists..." || { curl $in > $i.html; echo $in > $i.link; }
-	let i=$i+1; 
-done
-
-
-echo -------------------------------------------
-echo  Parse all the pages and get the inserts
+echo Get all individual pages.. and parse
 echo -------------------------------------------
 
 rm inserts.txt
-size=`ls | grep link | wc -l`
-i=0; while [ $i -lt $size ]; do 
-	[ $i -ge $MAX_WEEK_SIZE ] && break
+cat ../links.txt | \
+while read in; do
+	md5=`echo $in | /sbin/md5`
+	[ -e $md5 ] && echo "Individual album page $md5 exists..." || curl -s $in > $md5.html
 	echo -e "\e[34m---------------------------------------"
-	echo "parser.sh pages/$year/albums/$i.html `cat $i.link`"
+	echo "parser.sh pages/$year/albums/$md5.html $in"
 	echo -e "---------------------------------------\e[0m"
-	bash ../../../parser.sh  $i.html `cat $i.link`
-	let i=i+1
+	bash ../../../parser.sh  $md5.html $in
 done
 
 rm data.php
